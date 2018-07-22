@@ -15,14 +15,14 @@ constructor(){
   this.showresult = this.showresult.bind(this);
 }
 
-showresult(){
+showresult(opperation, number1, number2){
   let result = 0;
   switch (this.state.operation){
     case "+":
-      result = this.state.number1 + this.state.number2;
+      result = number1 + number2;
       break;
     case"-":
-      result = this.state.number1 - this.state.number2;
+      result = number1 - number2;
       break;
       default:
       break;
@@ -33,16 +33,25 @@ showresult(){
 }
 
 handleNumber1Change(e){
-  this.setState({number1: +e.currentTarget.value})
+  let number1 = +e.currentTarget.value;
+  this.setState({number1:number1});
+  let {number2, operation} = this.state;
+  this.showresult(operation, +number1, number2);
 }
 
 handleNumber2Change(e){
-  this.setState({number2: Number(e.currentTarget.value)})
-
+  let number2 = Number(+e.currentTarget.value);
+  this.setState({number2:number2});
+  this.showresult();
+let {number1, operation} = this.state;
+  this.showresult(operation, +number1, number2);
 }
 
 handleOperationChange(e){
   this.setState({operation: e.currentTarget.value})
+
+let {number1, number2} = this.state;
+  this.showresult(e.currentTarget.value, number1, number2);
 
 }
 
@@ -56,7 +65,6 @@ handleOperationChange(e){
       <option value="-">-</option>
       </select>
       <input value={this.state.number2} onChange={this.handleNumber2Change.bind(this)}/>
-      <button onClick={this.showresult}>Get result</button>
       <div>
         Result: <span>{this.state.number1}
         {this.state.operation}
